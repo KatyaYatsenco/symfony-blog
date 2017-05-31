@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="list-group">
+            <h1 class="list-group-item">{{ post.title }}</h1>
+            <p class="list-group-item">Post id: {{ post.id }}</p>
+            <p class="list-group-item">{{ post.content }}</p>
+
+
+            <div class="list-group-item" style="display:flex;flex-direction: row;align-items: center; justify-content: space-between;">
+
+                <a href="{{ path('_edit', { 'id': post.id }) }}" class="btn btn-success">Edit</a>
+
+                <a href="{{ path('_index') }}">Back to the list</a>
+
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Delete" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

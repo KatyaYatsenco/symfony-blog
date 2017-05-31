@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% use "bootstrap_3_layout.html.twig" %}
+
+{% block body %}
+
+    <div class="container">
+
+        <a href="{{ path('_new') }}" class="btn btn-success" style=" margin-right: 15px">Create a new post</a>
+        
+        <div class="list-group">
+
+
+            {% for post in posts %}
+                <h1 class="list-group-item">{{ post.title }}</h1>
+                <p class="list-group-item">Post id: {{ post.id }}</p>
+                <p class="list-group-item">{{ post.content }}</p>
+
+                <div class="list-group-item"
+                     style="display:flex;flex-direction: row;align-items: center;">
+                    <a href="{{ path('_show', { 'id': post.id }) }}" class="btn btn-success" style=" margin-right: 15px">show</a>
+
+                    <a href="{{ path('_edit', { 'id': post.id }) }}" class="btn btn-success" style=" margin-right: 15px">Edit</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

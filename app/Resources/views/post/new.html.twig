@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="list-group">
+            <h1 class="list-group-item">New Post</h1>
+
+            <div class="list-group-item">
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+            </div>
+
+            <div class="list-group-item"
+                 style="display:flex;flex-direction: row;align-items: center; justify-content: space-between;">
+
+                <input type="submit" value="Create" class="btn btn-success"/>
+                {{ form_end(form) }}
+
+                <a href="{{ path('_index') }}">Back to the list</a>
+
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
