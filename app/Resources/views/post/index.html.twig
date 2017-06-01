@@ -5,10 +5,11 @@
 
     <div class="container">
 
-        <a href="{{ path('_new') }}" class="btn btn-success" style=" margin-right: 15px">Create a new post</a>
-        
+    <a href="{{ path('_new') }}" class="btn btn-success" style=" margin-right: 15px">Create a new post</a>
+
         <div class="list-group">
 
+            {% include 'post/paginator.html.twig' %}
 
             {% for post in posts %}
                 <h1 class="list-group-item">{{ post.title }}</h1>
@@ -17,11 +18,15 @@
 
                 <div class="list-group-item"
                      style="display:flex;flex-direction: row;align-items: center;">
-                    <a href="{{ path('_show', { 'id': post.id }) }}" class="btn btn-success" style=" margin-right: 15px">show</a>
+                    <a href="{{ path('_show', { 'id': post.id }) }}" class="btn btn-success"
+                       style=" margin-right: 15px">show</a>
 
-                    <a href="{{ path('_edit', { 'id': post.id }) }}" class="btn btn-success" style=" margin-right: 15px">Edit</a>
+                    <a href="{{ path('_edit', { 'id': post.id }) }}" class="btn btn-success"
+                       style=" margin-right: 15px">Edit</a>
                 </div>
             {% endfor %}
+
+            {% include 'post/paginator.html.twig' %}
         </div>
     </div>
 {% endblock %}

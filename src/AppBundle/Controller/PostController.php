@@ -3,9 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 
 /**
  * Post controller.
@@ -20,15 +24,41 @@ class PostController extends Controller
      * @Route("/", name="_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+//        $posts = $em->getRepository('AppBundle:Post')->findAll();
 
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $posts = $em->getRepository('AppBundle:Post')->getAllQuery();
+//        $posts->findAll();
 
-        return $this->render('post/index.html.twig', array(
-            'posts' => $posts,
-        ));
+        $page = $request->query->get('page', 1);
+        $limit = 2;
+        $paginator = $this->paginate($posts, $page, $limit);
+        $maxPages = ceil($paginator->count() / $limit);
+        $thisPage = $page;
+
+        return $this->render(
+            'post/index.html.twig',
+            array(
+                'posts' => $posts->getResult(),
+                'count' => $paginator->count()/$limit,
+                'currentPage' => $page,
+                'maxPages' => $maxPages,
+
+            )
+        );
+    }
+
+    public function paginate(Query $dql, $page = 1, $limit = 2)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1))// Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
     }
 
     /**
@@ -53,10 +83,14 @@ class PostController extends Controller
             return $this->redirectToRoute('_show', array('id' => $post->getId()));
         }
 
-        return $this->render('post/new.html.twig', array(
-            'post' => $post,
-            'form' => $form->createView(),
-        ));
+
+        return $this->render(
+            'post/new.html.twig',
+            array(
+                'post' => $post,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
@@ -71,10 +105,13 @@ class PostController extends Controller
     {
         $deleteForm = $this->createDeleteForm($post);
 
-        return $this->render('post/show.html.twig', array(
-            'post' => $post,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'post/show.html.twig',
+            array(
+                'post' => $post,
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
@@ -95,14 +132,17 @@ class PostController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('_edit', array('id' => $post->getId()));
+            return $this->redirectToRoute('_show', array('id' => $post->getId()));
         }
 
-        return $this->render('post/edit.html.twig', array(
-            'post' => $post,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render(
+            'post/edit.html.twig',
+            array(
+                'post' => $post,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            )
+        );
     }
 
     /**
@@ -140,7 +180,6 @@ class PostController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('_delete', array('id' => $post->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

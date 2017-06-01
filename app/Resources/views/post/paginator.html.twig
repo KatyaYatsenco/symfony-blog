@@ -1,0 +1,31 @@
+{% if maxPages > 1 %}
+    <ul class="pagination pagination-sm">
+
+        {# `««` arrow  #}
+        <li {{ currentPage == 1 ? 'class="disabled"' }}>
+            <a href="{{ path('_index', {page: 1}) }}">««</a>
+        </li>
+
+        {# `«` arrow  #}
+        <li {{ currentPage == 1 ? 'class="disabled"' }}>
+            <a href="{{ path('_index', {page: currentPage-1 < 1 ? 1 : currentPage-1}) }}">«</a>
+        </li>
+
+        {# Render each page number #}
+        {% for i in 1..maxPages %}
+            <li {{ currentPage == i ? 'class="active"' }}>
+                <a href="{{ path('_index', {page: i}) }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+
+        {# `»` arrow #}
+        <li {{ currentPage == maxPages ? 'class="disabled"' }}>
+            <a href="{{ path('_index', {page: currentPage+1 <= maxPages ? currentPage+1 : currentPage}) }}">»</a>
+        </li>
+
+        {# `»»` arrow #}
+        <li {{ currentPage == maxPages ? 'class="disabled"' }}>
+            <a href="{{ path('_index', {page: maxPages}) }}">»»</a>
+        </li>
+    </ul>
+{% endif %}

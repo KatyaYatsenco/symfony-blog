@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+ // todo Katya add validation (title no more than 255, required, content - not required)
 /**
  * Post
  *
