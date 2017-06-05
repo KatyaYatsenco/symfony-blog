@@ -30,10 +30,9 @@ class PostController extends Controller
         $posts = $em->getRepository('AppBundle:Post')->getAllQuery();
 
         $page = $request->query->get('page', 1);
-        $limit = 1;
+        $limit = 2;
         $paginator = $this->paginate($posts, $page, $limit);
         $maxPages = ceil($paginator->count() / $limit);
-//        $this->disqusBundle();
 
         return $this->render(
             'post/index.html.twig',
@@ -62,7 +61,7 @@ class PostController extends Controller
         $comments = $this->get('knp_disqus.request')->fetch(
             'dolor-sid',
             array(
-                'identifier' => '/december-2010/the-best-day-of-my-life/',
+                'identifier' => strval(date("Ymd")),
                 'limit' => 10, // Default limit is set to max. value for Disqus (100 entries)
                 //    'language'   => 'de_formal', // You can fetch comments only for specific language
             )

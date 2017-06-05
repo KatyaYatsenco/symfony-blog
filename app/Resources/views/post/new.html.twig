@@ -19,7 +19,16 @@
             <div class="list-group-item"
                  style="display:flex;flex-direction: row;align-items: center; justify-content: space-between;">
 
-                <input type="submit" value="Create" class="btn btn-success"/>
+                <input
+                        type="submit"
+                        value="Create"
+                        class="btn btn-success"
+                        data-toggle="confirmation"
+                        data-btn-ok-class="btn btn-success"
+                        data-btn-ok-label="Create"
+                        data-btn-cancel-class="btn btn-danger"
+                        data-btn-cancel-label="Cancel"
+                />
                 {{ form_end(form) }}
 
                 <a href="{{ path('_index') }}">Back to the list</a>

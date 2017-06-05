@@ -22,8 +22,6 @@ class PostType extends AbstractType
                 [
                     'label' => "Content",
                     "attr" => [
-                        "name" => "editor1 !important",
-                        "id" => "editor1 !important",
                         "rows" => 10,
                         "cols" => 80,
                     ],

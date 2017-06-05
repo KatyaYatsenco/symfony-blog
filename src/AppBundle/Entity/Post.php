@@ -26,14 +26,14 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, unique=true)
+     * @ORM\Column(name="title", type="string", length=255, unique=false)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", length=3000, unique=false)
      */
     private $content;
 
