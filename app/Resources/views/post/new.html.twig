@@ -9,9 +9,11 @@
 
             <div class="list-group-item">
 
-                {{ form_start(form) }}
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
 
                 {{ form_widget(form) }}
+
+
             </div>
 
             <div class="list-group-item"

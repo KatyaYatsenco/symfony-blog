@@ -3,7 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
- // todo Katya add validation (title no more than 255, required, content - not required)
+
+// todo Katya add validation (title no more than 255, required, content - not required)
+
 /**
  * Post
  *
@@ -55,7 +57,7 @@ class Post
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = htmlspecialchars_decode($title);
 
         return $this;
     }
@@ -67,7 +69,7 @@ class Post
      */
     public function getTitle()
     {
-        return $this->title;
+        return htmlspecialchars_decode($this->title);
     }
 
     /**
@@ -79,7 +81,7 @@ class Post
      */
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = htmlspecialchars_decode($content);
 
         return $this;
     }

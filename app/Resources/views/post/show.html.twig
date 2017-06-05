@@ -3,9 +3,9 @@
 {% block body %}
     <div class="container">
         <div class="list-group">
-            <h1 class="list-group-item">{{ post.title }}</h1>
+            <h1 class="list-group-item">{{ post.title| striptags('<h1><span>') | raw }}</h1>
             <p class="list-group-item">Post id: {{ post.id }}</p>
-            <p class="list-group-item">{{ post.content }}</p>
+            <div class="list-group-item">{{ post.content|raw }}</div>
 
 
             <div class="list-group-item" style="display:flex;flex-direction: row;align-items: center; justify-content: space-between;">
@@ -19,6 +19,9 @@
                 {{ form_end(delete_form) }}
 
                 {#todo Katya add discus comments#}
+            </div>
+            <div id="disqus_thread" class="list-group-item" >
+                {% include 'post/comment.html.twig' %}
             </div>
         </div>
     </div>

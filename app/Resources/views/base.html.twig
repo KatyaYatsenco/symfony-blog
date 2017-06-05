@@ -9,15 +9,20 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
     <style>
-        #appbundle_post_content {
-            height: 40vh;
-        }
         .pagination .active a {
-            background-image: linear-gradient(to bottom,#5cb85c 0,#419641 100%) !important;
+            background-image: linear-gradient(to bottom, #5cb85c 0, #419641 100%) !important;
             border-color: #5cb85c;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
     </style>
+
+
 </head>
 <body>
 {% block navbar %}
@@ -51,12 +56,53 @@
 <div class="container">
     {% block body %}
     {% endblock %}
+
 </div>
 
 {% block javascripts %}
+
+    <script src="https://cdn.ckeditor.com/4.7.0/standard/ckeditor.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
 {% endblock %}
+
+<script>
+    if (window.location.pathname !== '/') {
+        CKEDITOR.replace('appbundle_post[content]');
+    }
+</script>
+
+{#Disqus bundle#}
+<script>
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'https-katyayatsenco-github-io-symfony-blog';
+    var disqus_identifier = 'newid1';
+    var disqus_url = 'https://https-katyayatsenco-github-io-symfony-blog.disqus.com/embed.js';
+    var disqus_config = function () {
+        this.language = "en";
+    };
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* * * Disqus Reset Function * * */
+    var reset = function (newIdentifier, newUrl, newTitle, newLanguage) {
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.identifier = newIdentifier;
+                this.page.url = newUrl;
+                this.page.title = newTitle;
+                this.language = newLanguage;
+            }
+        });
+    };
+</script>
+
 </body>
 </html>

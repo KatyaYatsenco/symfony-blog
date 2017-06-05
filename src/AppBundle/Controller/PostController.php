@@ -27,30 +27,26 @@ class PostController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//        $posts = $em->getRepository('AppBundle:Post')->findAll();
-
         $posts = $em->getRepository('AppBundle:Post')->getAllQuery();
-//        $posts->findAll();
 
         $page = $request->query->get('page', 1);
-        $limit = 2;
+        $limit = 1;
         $paginator = $this->paginate($posts, $page, $limit);
         $maxPages = ceil($paginator->count() / $limit);
-        $thisPage = $page;
+//        $this->disqusBundle();
 
         return $this->render(
             'post/index.html.twig',
             array(
                 'posts' => $posts->getResult(),
-                'count' => $paginator->count()/$limit,
+                'count' => $paginator->count() / $limit,
                 'currentPage' => $page,
                 'maxPages' => $maxPages,
-
             )
         );
     }
 
-    public function paginate(Query $dql, $page = 1, $limit = 2)
+    public function paginate(Query $dql, $page = 1, $limit = 1)
     {
         $paginator = new Paginator($dql);
 
@@ -59,6 +55,25 @@ class PostController extends Controller
             ->setMaxResults($limit); // Limit
 
         return $paginator;
+    }
+
+    function commentsAction()
+    {
+        $comments = $this->get('knp_disqus.request')->fetch(
+            'dolor-sid',
+            array(
+                'identifier' => '/december-2010/the-best-day-of-my-life/',
+                'limit' => 10, // Default limit is set to max. value for Disqus (100 entries)
+                //    'language'   => 'de_formal', // You can fetch comments only for specific language
+            )
+        );
+
+        return $this->render(
+            'post/comment.html.twig',
+            array(
+                'comments' => $comments,
+            )
+        );
     }
 
     /**
@@ -80,7 +95,9 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('_show', array('id' => $post->getId()));
+            return $this->redirectToRoute('_show', array(
+                'id' => $post->getId()
+            ));
         }
 
 
@@ -96,7 +113,7 @@ class PostController extends Controller
     /**
      * Finds and displays a post entity.
      *
-     * @Route("/{id}", name="_show")
+     * @Route("/post{id}", name="_show")
      * @Method("GET")
      * @param Post $post
      * @return \Symfony\Component\HttpFoundation\Response
@@ -110,6 +127,7 @@ class PostController extends Controller
             array(
                 'post' => $post,
                 'delete_form' => $deleteForm->createView(),
+                'comments' => $this->commentsAction(),
             )
         );
     }
@@ -117,7 +135,7 @@ class PostController extends Controller
     /**
      * Displays a form to edit an existing post entity.
      *
-     * @Route("/{id}/edit", name="_edit")
+     * @Route("/post{id}/edit", name="_edit")
      * @Method({"GET", "POST"})
      * @param Request $request
      * @param Post $post

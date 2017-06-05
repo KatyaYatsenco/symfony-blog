@@ -16,7 +16,20 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content', TextareaType::class, ['label' => "Content"]); // todo Katya add http://ckeditor.com/ editor to content block and chack that html render without escaping
+            ->add(
+                'content',
+                TextareaType::class,
+                [
+                    'label' => "Content",
+                    "attr" => [
+                        "name" => "editor1 !important",
+                        "id" => "editor1 !important",
+                        "rows" => 10,
+                        "cols" => 80,
+                    ],
+
+                ]
+            ); // todo Katya add http://ckeditor.com/ editor to content block and chack that html render without escaping
     }
 
     /**

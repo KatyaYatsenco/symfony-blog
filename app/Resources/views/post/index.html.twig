@@ -1,20 +1,19 @@
 {% extends 'base.html.twig' %}
-{% use "bootstrap_3_layout.html.twig" %}
 
 {% block body %}
 
     <div class="container">
 
-    <a href="{{ path('_new') }}" class="btn btn-success" style=" margin-right: 15px">Create a new post</a>
+        <a href="{{ path('_new') }}" class="btn btn-success" style=" margin-right: 15px">Create a new post</a>
 
         <div class="list-group">
 
             {% include 'post/paginator.html.twig' %}
 
             {% for post in posts %}
-                <h1 class="list-group-item">{{ post.title }}</h1>
+                <h1 class="list-group-item">{{ post.title |striptags('<h1><span>')|raw }}</h1>
                 <p class="list-group-item">Post id: {{ post.id }}</p>
-                <p class="list-group-item">{{ post.content }}</p>
+                <div class="list-group-item">{{ post.content |raw }}</div>
 
                 <div class="list-group-item"
                      style="display:flex;flex-direction: row;align-items: center;">
@@ -27,6 +26,11 @@
             {% endfor %}
 
             {% include 'post/paginator.html.twig' %}
+
+            <div id="disqus_thread" class="list-group-item" >
+                {% include 'post/comment.html.twig' %}
+            </div>
+
         </div>
     </div>
 {% endblock %}
