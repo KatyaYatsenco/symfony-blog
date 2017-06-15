@@ -5,7 +5,13 @@
         <div class="list-group">
             <h1 class="list-group-item">{{ post.title| striptags('<h1><span>') | raw }}</h1>
             <p class="list-group-item">Post id: {{ post.id }}</p>
-            <div class="list-group-item">{{ post.content|raw }}</div>
+            <div class="list-group-item">{{ post.field|raw }}</div>
+            {#<a href="{{ asset('uploads/images/' ~ post.image) }}">View image</a>#}
+            <div class="list-group-item">
+                {% if post.image %}
+                <img src="{{ asset('uploads/images/' ~ post.image.filename) }}"/>
+                {% endif %}
+            </div>
 
 
             <div class="list-group-item"
@@ -16,29 +22,12 @@
                 <a href="{{ path('_index') }}">Back to the list</a>
 
                 {{ form_start(delete_form) }}
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-sm">
+                <button id="confirmationPopup" type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target=".bs-example-modal-sm">
                     Delete
                 </button>
 
-                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-                     aria-labelledby="mySmallModalLabel">
-                    <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                            aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Are you sure?</h4>
-                            </div>
-                            <div class="modal-footer">
-                                <input
-                                        type="submit"
-                                        value="Delete"
-                                        class="btn btn-danger"
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include 'post/modal.html.twig' %}
 
                 {{ form_end(delete_form) }}
 

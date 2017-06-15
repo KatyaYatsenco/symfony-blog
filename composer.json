@@ -21,13 +21,14 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "ckeditor/ckeditor": "dev-full/4.3.x",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "egeloen/ckeditor-bundle": "^5.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "knplabs/knp-disqus-bundle": "^2.3",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
+        "symfony/assetic-bundle": "^2.8",
         "symfony/form": "*",
         "symfony/framework-bundle": "^2.3|^3.0",
         "symfony/monolog-bundle": "^3.1.0",
@@ -35,7 +36,9 @@
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
         "twig/twig": "^1.0||^2.0",
-        "twitter/bootstrap": "3.*"
+        "twitter/bootstrap": "3.*",
+        "helios-ag/fm-elfinder-bundle": "~6"
+
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -58,7 +61,8 @@
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "component-dir": "web/assets"
     },
     "extra": {
         "symfony-app-dir": "app",

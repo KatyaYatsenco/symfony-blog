@@ -17,6 +17,9 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new Knp\Bundle\DisqusBundle\KnpDisqusBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new FM\ElfinderBundle\FMElfinderBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -10,9 +10,14 @@
 
             <div class="list-group-item">
 
-                {{ form_start(edit_form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_start(edit_form) }}
 
-                {{ form_widget(edit_form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(edit_form) }}
+
+                    {% if post.image %}
+                        <p>You loaded this pic. If you want to change it, choose a new one and it will be replace.</p>
+                        <img src="{{ asset('uploads/images/' ~ post.image.filename) }}" class="prev-img"/>
+                    {% endif %}
             </div>
 
             <div class="list-group-item"

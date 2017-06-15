@@ -20,9 +20,15 @@
             display: flex;
             justify-content: center;
         }
+
         .modal-footer {
             display: flex;
             justify-content: center;
+        }
+
+        .prev-img {
+            max-width: 100px;
+            height: auto;
         }
     </style>
 
@@ -65,52 +71,96 @@
 
 {% block javascripts %}
 
-    <script src="https://cdn.ckeditor.com/4.7.0/standard/ckeditor.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    {#<script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>#}
+{#<script src=""#}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
+    {#Ckeditor config#}
+    <script>
+        // appbundle_post[content]
+    </script>
+
+    {#Disqus bundle#}
+
+    <script>
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-katyayatsenco-github-io-symfony-blog';
+        var disqus_identifier = Date.now();
+        var post_identifier = window.location.pathname;
+        var disqus_url = 'https://https-katyayatsenco-github-io-symfony-blog' + post_identifier + 'disqus.com/embed.js';
+        var disqus_config = function () {
+            this.language = "en";
+        };
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        if (window.location.pathname.indexOf('show') !== -1) {
+
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+            /* * * Disqus Reset Function * * */
+            var reset = function (newIdentifier, newUrl, newTitle, newLanguage) {
+                DISQUS.reset({
+                    reload: true,
+                    config: function () {
+                        this.page.identifier = newIdentifier;
+                        this.page.url = newUrl;
+                        this.page.title = newTitle;
+                        this.language = newLanguage;
+                    }
+                });
+            };
+        }
+    </script>
+
+    {#Confirmation - popup Ajax#}
+    <script>
+        function showPopup() {
+            $("#confirmationPopup").dialog({
+                autoOpen: true,
+                resizable: false,
+                height: '100px',
+                width: 'auto',
+                modal: true,
+                show: {effect: "puff", duration: 3000},
+                draggable: true
+            });
+
+        }
+
+
+        function closePopup() {
+            $("#confirmationPopup").dialog('close');
+        }
+
+        /* Submit Resources Popup */
+
+        function submitResources(id) {
+
+            $("#confirmationPopup").dialog('open');
+            var url = window.location.href;
+
+            $.ajax({
+                url: url,
+                data: 'act=loadResourcesFrm&id=' + id,
+                type: 'POST',
+                error: function () {
+                },
+                success: function (data) {
+                    $('#confirmationPopup').html(data);
+                    showPopup();
+                }
+            });
+        }
+    </script>
+
 {% endblock %}
-
-<script>
-    if (window.location.pathname !== '/') {
-        CKEDITOR.replace('appbundle_post[content]');
-    }
-</script>
-
-{#Disqus bundle#}
-<script>
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'https-katyayatsenco-github-io-symfony-blog';
-    var disqus_identifier = Date.now();
-    var post_identifier = window.location.pathname;
-    var disqus_url = 'https://https-katyayatsenco-github-io-symfony-blog' + post_identifier + 'disqus.com/embed.js';
-    var disqus_config = function () {
-        this.language = "en";
-    };
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function () {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    /* * * Disqus Reset Function * * */
-    var reset = function (newIdentifier, newUrl, newTitle, newLanguage) {
-        DISQUS.reset({
-            reload: true,
-            config: function () {
-                this.page.identifier = newIdentifier;
-                this.page.url = newUrl;
-                this.page.title = newTitle;
-                this.language = newLanguage;
-            }
-        });
-    };
-</script>
-
-
 
 </body>
 </html>

@@ -15,5 +15,10 @@ parameters:
     mailer_user: ~
     mailer_password: ~
 
+    knp_disqus.api_key: 0VMrNqQBkHGI58vH3XcQjk9ZJJU0r0QBRRjDAI5DwPXp2lCbtYC2QPVHLBnfgOb2
+    knp_disqus.secret_key: aqhLQBbnQyxB224sB14Hps9khSYWRqLSLoBIBsMkh3TyzFHUr5qif44SMLrbChOa
+    knp_disqus.lorem.shortname: lorem
+    knp_disqus.ipsum.shortname: sid-data
+
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 // todo Katya add validation (title no more than 255, required, content - not required)
 
@@ -33,10 +34,35 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", length=3000, unique=false)
+     * @ORM\Column(name="field", type="text", length=3000, unique=false, nullable=true)
      */
-    private $content;
+    private $field;
 
+    /**
+     * @ORM\Column(type="string",name="image", nullable=true)
+     * @Assert\File(mimeTypes={ "image/*" })
+     */
+    private $image;
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+
+    }
 
     /**
      * Get id
@@ -73,27 +99,27 @@ class Post
     }
 
     /**
-     * Set content
+     * Set field
      *
-     * @param string $content
+     * @param string $field
      *
      * @return Post
      */
-    public function setContent($content)
+    public function setField($field)
     {
-        $this->content = htmlspecialchars_decode($content);
+        $this->field = htmlspecialchars_decode($field);
 
         return $this;
     }
 
     /**
-     * Get content
+     * Get field
      *
      * @return string
      */
-    public function getContent()
+    public function getField()
     {
-        return $this->content;
+        return $this->field;
     }
 }
 

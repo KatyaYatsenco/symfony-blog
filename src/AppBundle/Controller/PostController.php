@@ -3,12 +3,15 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use AppBundle\Form\PostType;
 use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\HttpFoundation\File\File;
+use AppBundle\Service\FileUploader;
 
 
 /**
@@ -56,7 +59,7 @@ class PostController extends Controller
         return $paginator;
     }
 
-    function commentsAction()
+    public function commentsAction()
     {
         $comments = $this->get('knp_disqus.request')->fetch(
             'dolor-sid',
@@ -75,28 +78,50 @@ class PostController extends Controller
         );
     }
 
+    public function modalAction()
+    {
+        if ($_POST['act'] == 'loadResourcesFrm') {
+            return $this->render(
+                'post/modal.html.twig'
+            );
+        }
+    }
+
     /**
      * Creates a new post entity.
      *
      * @Route("/new", name="_new")
      * @Method({"GET", "POST"})
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, FileUploader $fileUploader)
     {
         $post = new Post();
-        $form = $this->createForm('AppBundle\Form\PostType', $post);
+        $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
+            // $file stores the uploaded jpg file
+            $file = $post->getImage();
 
-            return $this->redirectToRoute('_show', array(
-                'id' => $post->getId()
-            ));
+            // Generate a unique name for the file before saving it
+            $fileName = $fileUploader->upload($file);
+            $post->setImage($fileName);
+
+
+            $post->setImage($fileName);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post); //load post
+            $em->flush(); // sent all
+
+            return $this->redirectToRoute(
+                '_show',
+                array(
+                    'id' => $post->getId(),
+                )
+            );
         }
 
 
@@ -126,7 +151,6 @@ class PostController extends Controller
             array(
                 'post' => $post,
                 'delete_form' => $deleteForm->createView(),
-                'comments' => $this->commentsAction(),
             )
         );
     }
@@ -142,12 +166,25 @@ class PostController extends Controller
      */
     public function editAction(Request $request, Post $post)
     {
+        if ($post->getImage() !== null) {
+            $img = $post->getImage()->getFilename();
+        } else {
+            $img = null;
+        }
+
         $deleteForm = $this->createDeleteForm($post);
-        $editForm = $this->createForm('AppBundle\Form\PostType', $post);
+        $editForm = $this->createForm(PostType::class, $post);
         $editForm->handleRequest($request);
 
+        dump($img);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($img !== null && $post->getImage() === null) {
+                $post->setImage($img);
+            }
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             return $this->redirectToRoute('_show', array('id' => $post->getId()));
         }
@@ -161,6 +198,16 @@ class PostController extends Controller
             )
         );
     }
+
+//    /**
+//     * @Route('')
+//     * @param Request $request
+//     * @param Post $post
+//     */
+//    public function uploadImageAction(Request $request, Post $post) {
+//        $post = new Post();
+//
+//    }
 
     /**
      * Deletes a post entity.

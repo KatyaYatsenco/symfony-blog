@@ -13,7 +13,8 @@
             {% for post in posts %}
                 <h1 class="list-group-item">{{ post.title |striptags('<h1><span>')|raw }}</h1>
                 <p class="list-group-item">Post id: {{ post.id }}</p>
-                <div class="list-group-item">{{ post.content |raw }}</div>
+                <div class="list-group-item">{{ post.field |raw }}</div>
+                <a href="{{ asset('uploads/images/' ~ post.image) }}"></a>
 
                 <div class="list-group-item"
                      style="display:flex;flex-direction: row;align-items: center;">
