@@ -57,13 +57,12 @@ ivory_ck_editor:
     configs:
         my_config:
             filebrowserBrowseRoute: "elfinder"
+            toolbar: [ ["Styles"] [ 'Table', 'HorizontalRule', 'SpecialChar',]['Bold', 'Italic', 'Strike', '-', 'RemoveFormat', 'basicstyles', 'cleanup'] ["Image", "Undo", "Source", "Maximize" ] ]
 
         filebrowsers:
                 - ImageBrowse
                 - ImageUpload
-#            toolbar: [ ["Source", "-", "Save"], "/", ["Anchor"], "/", ["Maximize"] ]
-#            uiColor:                "#000000"
-#            extraPlugins:           "uploadimage"
+
 
 fm_elfinder:
     #assets_path: / # default is /assets, this is where css/js elfinder files are
@@ -71,7 +70,7 @@ fm_elfinder:
         default:
             locale: %locale% # defaults to current request locale
             editor: ckeditor # other options are tinymce, tinymce4, fm_tinymce, form, simple, custom
-            #editor_template: custom template for your editor # default null
+            editor_template: simple #custom template for your editor # default null
             #path_prefix: / # for setting custom assets path prefix, useful for non vhost configurations, i.e. http://127.0.0.1/mysite/
             #fullscreen: true|false # default is true, applies to simple and ckeditor editors
             #theme: smoothness # jquery theme, default is 'smoothness'
@@ -85,10 +84,10 @@ fm_elfinder:
                         driver: LocalFileSystem
                         path: uploads
                         upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
-                        upload_deny: ['all']
-                        upload_max_size: 2M # also file upload sizes restricted in php.ini
+                        # upload_deny: ['all']
+                        upload_max_size: 1M # also file upload sizes restricted in php.ini
                         #attributes: example of setting attributes permission
-                        #    - { pattern: '/(.*?)/', read: true, write: false, locked: true }
+                        #- { pattern: '/(.*?)/', read: true, write: false, locked: true }
 
 # Doctrine Configuration
 doctrine:

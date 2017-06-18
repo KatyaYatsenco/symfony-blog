@@ -3,15 +3,11 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Post;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PostType extends AbstractType
 {
@@ -37,9 +33,9 @@ class PostType extends AbstractType
                 'image',
                 FileType::class,
                 [
-                    'label' => 'Image (jpg file)',
+                    'label' => 'Image',
                     'required' => false,
-                    'data_class' => null
+                    'data_class' => null,
                 ]
             );
     }

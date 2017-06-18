@@ -199,16 +199,6 @@ class PostController extends Controller
         );
     }
 
-//    /**
-//     * @Route('')
-//     * @param Request $request
-//     * @param Post $post
-//     */
-//    public function uploadImageAction(Request $request, Post $post) {
-//        $post = new Post();
-//
-//    }
-
     /**
      * Deletes a post entity.
      *
